@@ -88,7 +88,20 @@
       color: #4b5563;
     }
 
-    /* 상태 뱃지 스타일 (선택사항) */
+    /* 링크 스타일 */
+    .report-link {
+      color: #2563eb;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .report-link:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+    }
+
+    /* 상태 뱃지 스타일 */
     .badge-done {
       display: inline-block;
       padding: 2px 8px;
@@ -143,13 +156,13 @@
             <td rowspan="2" class="category">Backscattering</td>
             <td class="variable">Hyper-bb</td>
             <td><span class="badge-done">Done (35 species)</span></td>
-            <td></td>
+            <td><a href="01_htmls/F01_hbb_results.html" class="report-link">Report</a></td>
           </tr>
           <!-- Row 3 -->
           <tr>
             <td class="variable">SC6</td>
             <td><span class="badge-done">Done (35 species)</span></td>
-            <td></td>
+            <td><a href="01_htmls/F03_collect_sc6.html" class="report-link">Report</a></td>
           </tr>
           <!-- Row 4 (Absorption Start) -->
           <tr>
