@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reference Index</title>
+  <style>
+    /* 기본 스타일 초기화 */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    /* 2분할 레이아웃 컨테이너 */
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* 좌측 절반 섹션 */
+    .left-section {
+      flex: 1;
+      padding: 2rem;
+      background-color: #ffffff;
+      border-right: 1px solid #e9ecef;
+      overflow-x: auto;
+    }
+
+    /* 우측 절반 섹션 */
+    .right-section {
+      flex: 1;
+      padding: 2rem;
+      background-color: #fafafa;
+    }
+
+    /* 섹션 제목 */
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 1rem;
+    }
+
+    /* 테이블 스타일링 */
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #d1d5db;
+    }
+
+    .custom-table th,
+    .custom-table td {
+      border: 1px solid #e5e7eb;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    /* 헤더 행 스타일 */
+    .custom-table thead tr {
+      background-color: #f3f4f6;
+      color: #374151;
+      font-weight: 600;
+    }
+
+    /* 구분선 및 강조 스타일 */
+    .custom-table td.category {
+      font-weight: 600;
+      background-color: #f9fafb;
+      color: #1f2937;
+    }
+
+    .custom-table td.variable {
+      font-weight: 500;
+      color: #4b5563;
+    }
+
+    /* 상태 뱃지 스타일 (선택사항) */
+    .badge-done {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #166534;
+      background-color: #dcfce7;
+      border-radius: 9999px;
+    }
+
+    .badge-ongoing {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #9a3412;
+      background-color: #ffedd5;
+      border-radius: 9999px;
+    }
+
+    /* 모바일/작은 화면 대응 (800px 이하에서는 위아래 배치) */
+    @media (max-width: 800px) {
+      .container {
+        flex-direction: column;
+      }
+      .left-section {
+        border-right: none;
+        border-bottom: 1px solid #e9ecef;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 좌측 영역 -->
+    <section class="left-section">
+      <h2>Data Processing Status</h2>
+      
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Variable</th>
+            <th>Preprocessing</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Row 2 (Backscattering Start) -->
+          <tr>
+            <td rowspan="2" class="category">Backscattering</td>
+            <td class="variable">Hyper-bb</td>
+            <td><span class="badge-done">Done (35 species)</span></td>
+            <td></td>
+          </tr>
+          <!-- Row 3 -->
+          <tr>
+            <td class="variable">SC6</td>
+            <td><span class="badge-done">Done (35 species)</span></td>
+            <td></td>
+          </tr>
+          <!-- Row 4 (Absorption Start) -->
+          <tr>
+            <td rowspan="3" class="category">Absorption</td>
+            <td class="variable">Hyper-a</td>
+            <td><span class="badge-ongoing">ND/White plug calibration (ongoing)</span></td>
+            <td></td>
+          </tr>
+          <!-- Row 5 -->
+          <tr>
+            <td class="variable">AC9</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <!-- Row 6 -->
+          <tr>
+            <td class="variable">ACS</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <!-- Row 7 (Attenuation Start) -->
+          <tr>
+            <td rowspan="2" class="category">Attenuation</td>
+            <td class="variable">AC9</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <!-- Row 8 -->
+          <tr>
+            <td class="variable">ACS</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 우측 영역 -->
+    <section class="right-section">
+      <!-- 필요 시 추후 내용을 채워 넣을 영역입니다. -->
+    </section>
+  </div>
+
+</body>
+</html>
