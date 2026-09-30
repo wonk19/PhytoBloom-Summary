@@ -1,0 +1,54 @@
+{
+  "20251112_CMAR_comparison.png": {
+    "source": "harrison/box_folders/main/results_bulk/20260930_132008_976/251112_CMAR/20251112_CMAR_comparison.png",
+    "sha256": "06b8f276adc7f441b1f41293a6304eaeb8ebcddc02f29a9aee8255a10a3ce46f"
+  },
+  "20251105_AAFF_comparison.png": {
+    "source": "harrison/box_folders/main/results_bulk/20260930_132008_976/251105_AAFF/20251105_AAFF_comparison.png",
+    "sha256": "47417d2e334bc2c3e86a3416ee4e040aa7ae7ea2a0926edec2d3f35f4ce20a69"
+  },
+  "20251107_AMON_comparison.png": {
+    "source": "harrison/box_folders/main/results_bulk/20260930_132008_976/251107_AMON/20251107_AMON_comparison.png",
+    "sha256": "6c99e876006c8ecf9fac89809f56a53f2c8b85eae427c21a14befbcdba592f47"
+  },
+  "20251114_HCAR_comparison.png": {
+    "source": "harrison/box_folders/main/results_bulk/20260930_132008_976/251114_HCAR/20251114_HCAR_comparison.png",
+    "sha256": "7d855eb62bd027ac91990660b84578073b0947959c6ebf2aac0773c934e85b21"
+  },
+  "20251117_GOCE_comparison.png": {
+    "source": "harrison/box_folders/main/results_bulk/20260930_132008_976/251117_GOCE/20251117_GOCE_comparison.png",
+    "sha256": "b8befbd2636ac7ad0e7372c5a9ef51d9fccebd769efc8381d9ca2a211fbb4b6a"
+  },
+  "20251124_CLEP_comparison.png": {
+    "source": "harrison/box_folders/main/results_bulk/20260930_132008_976/251124_CLEP/20251124_CLEP_comparison.png",
+    "sha256": "f9dbf21d7cd20722998108d283166d36daa59f4e221b3ed077f838cb4ab4ca05"
+  },
+  "20251125_CLEP_comparison.png": {
+    "source": "harrison/box_folders/main/results_bulk/20260930_132008_976/251125_CLEP/20251125_CLEP_comparison.png",
+    "sha256": "ae9340116661df5aa401510d4a80664e8257d60c0340023de7c3c0fb604f5024"
+  },
+  "Hya8028_Rhoplots.png": {
+    "source": "harrison/box_folders/Hyper-a_24Sept2025-calibrations/Hya8028_Rhoplots.png",
+    "sha256": "fcb3eae1ece9587d574b1d55c29c25b320f55900f5a09ca878539a75f6264323"
+  },
+  "SRFA_factory.png": {
+    "source": "harrison/box_folders/Hyper-a_24Sept2025-calibrations/SRFA_factory.png",
+    "sha256": "fb16eabfcd6841df8053d7af4e524871eda9af367a64783e5bbccad1f6c35881"
+  },
+  "SRFA_newRho.png": {
+    "source": "harrison/box_folders/Hyper-a_24Sept2025-calibrations/SRFA_newRho.png",
+    "sha256": "8daf67f19f00acfb027551f06e62818c9fe3fea4be083a31fdb699db5a0c4979"
+  },
+  "1112CMAR_rhocompare.png": {
+    "source": "harrison/box_folders/Hypera_mtg_Feb2026/phytoblolom_rhoplots/1112CMAR_rhocompare.png",
+    "sha256": "f5bb7e61175a7e68aa1c8af732028b187a29b5b26dcec3397d7d518edb9ea88c"
+  },
+  "1125CLEP_rhoplots.png": {
+    "source": "harrison/box_folders/Hypera_mtg_Feb2026/phytoblolom_rhoplots/1125CLEP_rhoplots.png",
+    "sha256": "fa2a2faf203bdeebda45654fa98bf3547d46457ea003c4f08c073146c127e005"
+  },
+  "1114hcar_hya_acs.png": {
+    "source": "harrison/box_folders/Hypera_mtg_Feb2026/1114hcar_hya_acs.png",
+    "sha256": "f26f45351771090e316ae29fb08b5befc8746077ca0aa14fce99f0741f00655e"
+  }
+}
