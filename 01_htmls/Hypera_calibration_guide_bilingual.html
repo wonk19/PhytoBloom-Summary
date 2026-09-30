@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hyper-a Calibration and Absorption Retrieval Guide</title>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']]
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+  :root{
+    --bg:#f6f8fb;
+    --paper:#ffffff;
+    --ink:#17202a;
+    --muted:#607080;
+    --line:#d9e2ec;
+    --accent:#173b67;
+    --accent-soft:#eef4fb;
+    --code-bg:#f4f6f8;
+    --note-bg:#eff8f3;
+    --note-line:#c7e6d2;
+    --warn-bg:#fff8e8;
+    --warn-line:#ecd89a;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR","Apple SD Gothic Neo",
+                 "Malgun Gothic",Arial,sans-serif;
+    line-height:1.72;
+  }
+
+  .page{
+    max-width:1080px;
+    margin:30px auto;
+    background:var(--paper);
+    padding:48px 62px 72px;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+  }
+
+  .lang-tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:28px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:12px;
+  }
+
+  .lang-tab{
+    border:1px solid #bfcddd;
+    background:white;
+    color:#36506b;
+    border-radius:8px;
+    padding:8px 18px;
+    font-size:.95rem;
+    font-weight:700;
+    cursor:pointer;
+  }
+
+  .lang-tab.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:white;
+  }
+
+  .lang-panel{display:none}
+  .lang-panel.active{display:block}
+
+  h1{
+    margin:0 0 8px;
+    color:#102a43;
+    font-size:2.15rem;
+    line-height:1.25;
+    letter-spacing:-.025em;
+  }
+
+  .subtitle{
+    color:var(--muted);
+    margin-bottom:28px;
+    font-size:1rem;
+  }
+
+  h2{
+    margin-top:44px;
+    padding-bottom:8px;
+    border-bottom:2px solid var(--accent);
+    color:#16324f;
+    font-size:1.42rem;
+  }
+
+  h3{
+    margin-top:28px;
+    color:#243b53;
+    font-size:1.12rem;
+  }
+
+  p{margin:10px 0}
+
+  .toc{
+    background:var(--accent-soft);
+    border:1px solid #c9d9ec;
+    border-radius:12px;
+    padding:18px 24px;
+    margin:26px 0 34px;
+  }
+
+  .toc strong{display:block;margin-bottom:8px}
+  .toc ol{margin:6px 0 0 20px;padding:0}
+  .toc a{color:var(--accent);text-decoration:none}
+
+  .eqbox{
+    margin:18px 0;
+    padding:15px 18px;
+    border:2px solid var(--accent);
+    border-radius:10px;
+    background:#fbfdff;
+    overflow-x:auto;
+  }
+
+  .flow{
+    margin:20px 0;
+    padding:17px 20px;
+    border-left:5px solid var(--accent);
+    background:var(--accent-soft);
+    border-radius:8px;
+    font-weight:700;
+    text-align:center;
+  }
+
+  .note{
+    background:var(--note-bg);
+    border:1px solid var(--note-line);
+    border-radius:10px;
+    padding:15px 18px;
+    margin:18px 0;
+  }
+
+  .warning{
+    background:var(--warn-bg);
+    border:1px solid var(--warn-line);
+    border-radius:10px;
+    padding:15px 18px;
+    margin:18px 0;
+  }
+
+  code{
+    background:var(--code-bg);
+    padding:.12em .38em;
+    border-radius:4px;
+    font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+    font-size:.92em;
+  }
+
+  pre{
+    background:#101820;
+    color:#f4f7fa;
+    border-radius:10px;
+    padding:16px 18px;
+    overflow-x:auto;
+    line-height:1.55;
+    font-size:.90rem;
+    margin:14px 0 22px;
+  }
+
+  pre code{
+    background:transparent;
+    padding:0;
+    color:inherit;
+  }
+
+  .code-title{
+    font-size:.9rem;
+    font-weight:700;
+    color:#425b72;
+    margin-top:18px;
+    margin-bottom:6px;
+  }
+
+  .var-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin:18px 0;
+  }
+
+  .var-card{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    background:#fcfdff;
+  }
+
+  .var-card strong{
+    color:#183b56;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0 28px;
+    font-size:.95rem;
+  }
+
+  th,td{
+    border:1px solid var(--line);
+    padding:10px 12px;
+    vertical-align:top;
+  }
+
+  th{
+    background:#edf3f9;
+    color:#16324f;
+    text-align:left;
+  }
+
+  .footer{
+    margin-top:50px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:.88rem;
+  }
+
+  @media (max-width:760px){
+    .page{margin:0;padding:28px 20px 50px;border-radius:0}
+    .var-grid{grid-template-columns:1fr}
+    h1{font-size:1.75rem}
+  }
+
+  @media print{
+    body{background:white}
+    .page{box-shadow:none;margin:0;max-width:none;border-radius:0;padding:18mm}
+    .lang-tabs{display:none}
+    .lang-panel{display:block !important}
+    .lang-panel + .lang-panel{page-break-before:always}
+    .eqbox,.flow,.note,.warning,table,pre{break-inside:avoid}
+  }
+</style>
+
+<script>
+function switchLang(lang){
+  document.querySelectorAll('.lang-tab').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.lang-panel').forEach(panel => panel.classList.remove('active'));
+
+  document.getElementById('tab-' + lang).classList.add('active');
+  document.getElementById('panel-' + lang).classList.add('active');
+
+  document.documentElement.lang = (lang === 'eng') ? 'en' : 'ko';
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  if (window.MathJax && MathJax.typesetPromise){
+    MathJax.typesetPromise();
+  }
+}
+</script>
+</head>
+
+<body>
+<main class="page">
+
+  <div class="lang-tabs">
+    <button id="tab-eng" class="lang-tab active" onclick="switchLang('eng')">Eng</button>
+    <button id="tab-kor" class="lang-tab" onclick="switchLang('kor')">Kor</button>
+  </div>
+
+  <!-- ===================== ENGLISH ===================== -->
+  <article id="panel-eng" class="lang-panel active">
+
+    <h1>Hyper-a Calibration and Absorption Retrieval</h1>
+    <div class="subtitle">Technical guide: factory calibration → ND-spot field calibration → sample absorption retrieval</div>
+
+    <div class="toc">
+      <strong>Contents</strong>
+      <ol>
+        <li><a href="#eng-1">Overview</a></li>
+        <li><a href="#eng-2">Raw spectral correction</a></li>
+        <li><a href="#eng-3">Integrating-cavity optical model</a></li>
+        <li><a href="#eng-4">Factory calibration: determination of sphere reflectivity</a></li>
+        <li><a href="#eng-5">ND-spot field calibration</a></li>
+        <li><a href="#eng-6">Calculation of field reflectivity from White/Black measurements</a></li>
+        <li><a href="#eng-7">Relationship between factory and field calibration</a></li>
+        <li><a href="#eng-8">Sample absorption retrieval</a></li>
+        <li><a href="#eng-9">Forward model and nonlinear inversion</a></li>
+        <li><a href="#eng-10">Complete processing chain</a></li>
+        <li><a href="#eng-11">Key MATLAB variables and functions</a></li>
+      </ol>
+    </div>
+
+    <section id="eng-1">
+      <h2>1. Overview</h2>
+      <p>
+        Hyper-a determines the spectral absorption coefficient \(a(\lambda)\) using an integrating cavity.
+        The retrieval is not a simple gain/offset correction or a direct Beer–Lambert calculation.
+        Instead, the instrument response is represented by a PSICAM-type integrating-cavity model that
+        explicitly accounts for multiple reflections and effective photon path lengths inside the sphere.
+      </p>
+
+      <div class="var-grid">
+        <div class="var-card"><strong>\(r\)</strong><br>MATLAB variable: <code>cal.r</code></div>
+        <div class="var-card"><strong>\(r_0\)</strong><br>MATLAB variable: <code>cal.r_0</code></div>
+        <div class="var-card"><strong>\(\rho(\lambda)\)</strong><br>MATLAB variable: <code>cal.rho</code></div>
+        <div class="var-card"><strong>\(a_{\mathrm{spot}}(\lambda)\)</strong><br>MATLAB variable: <code>cal.spotAbsorp</code></div>
+      </div>
+
+      <div class="flow">
+        Factory Calibration → ND-Spot Field Calibration → Sample Absorption Retrieval
+      </div>
+    </section>
+
+    <section id="eng-2">
+      <h2>2. Raw Spectral Correction</h2>
+      <p>
+        Raw signal- and reference-detector counts are first corrected using the temporally nearest dark measurement.
+      </p>
+
+      <div class="eqbox">
+        \[
+        S'(\lambda)=S_{\mathrm{raw}}(\lambda)-S_{\mathrm{dark}}(\lambda)
+        \]
+        \[
+        R'(\lambda)=R_{\mathrm{raw}}(\lambda)-R_{\mathrm{dark}}(\lambda)
+        \]
+      </div>
+
+      <p>
+        The corrected signal and reference spectra are then interpolated onto the common wavelength grid
+        defined by <code>cal.wl</code>. The normalized Hyper-a signal is
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        H(\lambda)=\frac{S'(\lambda)}{R'(\lambda)}
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB implementation — <code>Hypera_lib.m</code>, function <code>CorrectSpectrum()</code></div>
+      <pre><code>sig_darkCorr = lightData.sigPix(n,:) ...
+             - medianDarkData.median_sigPix(closestIndex,:);
+
+ref_darkCorr = lightData.refPix(n,:) ...
+             - medianDarkData.median_refPix(closestIndex,:);
+
+AllDarkRefCorrected(n,:) = ...
+    interp1(config.sigWls(:)', sig_darkCorr, cal.wl(:)') ./ ...
+    interp1(config.refWls(:)', ref_darkCorr, cal.wl(:)');</code></pre>
+
+      <p>
+        Thus, <code>CorrectSpectrum()</code> performs:
+        <strong>dark subtraction → wavelength interpolation → signal/reference normalization</strong>.
+      </p>
+    </section>
+
+    <section id="eng-3">
+      <h2>3. Integrating-Cavity Optical Model</h2>
+
+      <p>
+        The cavity model uses the probability function \(P_s\), implemented in
+        <code>Hypera_lib.Ps()</code>:
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        P_s(a,r)=
+        \frac{1-e^{-2ar}(2ar+1)}
+        {2a^2r^2}
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB implementation — <code>Hypera_lib.m</code>, function <code>Ps()</code></div>
+      <pre><code>Ps_x = (1 - exp(-2 .* a .* r) .* (2 .* a .* r + 1)) ...
+     ./ (2 .* a.^2 .* r.^2);</code></pre>
+
+      <p>
+        For two absorption states A and B, the measured ratio is defined as
+      </p>
+
+      <div class="eqbox">
+        \[
+        T_{AB}(\lambda)=\frac{H_A(\lambda)}{H_B(\lambda)}
+        \]
+      </div>
+
+      <p>
+        This ratio is related to \(a_A\), \(a_B\), \(r\), \(r_0\), and sphere reflectivity
+        \(\rho(\lambda)\).
+      </p>
+    </section>
+
+    <section id="eng-4">
+      <h2>4. Factory Calibration: Determination of Sphere Reflectivity</h2>
+
+      <p>
+        Factory calibration determines the effective spectral reflectivity of the integrating sphere,
+        \(\rho(\lambda)\), using two states whose absorption coefficients are known.
+      </p>
+
+      <p>
+        Given known \(a_A(\lambda)\) and \(a_B(\lambda)\), and measured
+        \(T_{AB}=H_A/H_B\), sphere reflectivity is obtained by inversion:
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \rho(\lambda)=
+        \frac{
+        T_{AB}e^{-a_Br_0}P_s(a_B,r)
+        -
+        e^{-a_Ar_0}P_s(a_A,r)
+        }{
+        T_{AB}e^{-a_Br_0}P_s(a_A,r)P_s(a_B,r)
+        -
+        e^{-a_Ar_0}P_s(a_B,r)P_s(a_A,r)
+        }
+        }
+        \]
+      </div>
+
+      <div class="flow">
+        Known \(a_A,a_B\) + measured \(H_A,H_B\) → \(T_{AB}\) → \(\rho(\lambda)\)
+      </div>
+
+      <div class="code-title">MATLAB implementation — <code>Hypera_lib.m</code>, function <code>ComputeRho()</code></div>
+      <pre><code>T_AB = A_hypera ./ B_hypera;
+T_AB = smoothdata(T_AB, 2, 'sgolay', 15);
+
+rho = (T_AB .* exp(-a_B .* r_0) .* Hypera_lib.Ps(a_B,r) ...
+     - exp(-a_A .* r_0) .* Hypera_lib.Ps(a_A,r)) ...
+    ./ ...
+     (T_AB .* exp(-a_B .* r_0) .* Hypera_lib.Ps(a_A,r) .* Hypera_lib.Ps(a_B,r) ...
+     - exp(-a_A .* r_0) .* Hypera_lib.Ps(a_B,r) .* Hypera_lib.Ps(a_A,r));</code></pre>
+    </section>
+
+    <section id="eng-5">
+      <h2>5. ND-Spot Field Calibration</h2>
+
+      <p>
+        During field calibration, a Fluorilon white plug and an ND black spot are measured with pure water
+        in the sphere. The purpose is to calculate a new sphere reflectivity representing the current optical state
+        of the instrument.
+      </p>
+
+      <h3>5.1 White-plug measurement</h3>
+
+      <p>
+        With pure water and the Fluorilon white plug installed, the absorption state is represented by the
+        modeled pure-water absorption:
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        a_W(\lambda)=a_{\mathrm{water}}(\lambda,T_W,S=0)
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB implementation — <code>Hypera_RhoFromNDSpot.m</code></div>
+      <pre><code>purewater_DarkRefCorrected = ...
+    Hypera_lib.CorrectSpectrum(cal, pureWater.dataTable, pureWater.config);
+
+PureWater_aW_modeled = ...
+    Hypera_lib.Get_IOCCG_aW(cal.wl, T_pureWater, 0)';</code></pre>
+
+      <h3>5.2 ND black-spot measurement</h3>
+
+      <p>
+        With pure water still present, the white plug is replaced by the ND black spot.
+        The spot contributes a known equivalent absorption spectrum stored as
+        <code>cal.spotAbsorp</code>.
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        a_B(\lambda)=
+        a_{\mathrm{water}}(\lambda,T_B)+a_{\mathrm{spot}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB implementation — <code>Hypera_RhoFromNDSpot.m</code></div>
+      <pre><code>spot_DarkRefCorrected = ...
+    Hypera_lib.CorrectSpectrum(cal, spot.dataTable, spot.config);
+
+Cal_spot_aW_modeled = ...
+    Hypera_lib.Get_IOCCG_aW(cal.wl, T_spot, 0)';
+
+Cal_spot_a_total = cal.spotAbsorp + Cal_spot_aW_modeled;</code></pre>
+    </section>
+
+    <section id="eng-6">
+      <h2>6. Calculation of Field Reflectivity from White/Black Measurements</h2>
+
+      <p>
+        Let \(H_W(\lambda)\) be the corrected white-plug measurement and
+        \(H_B(\lambda)\) the corrected ND-spot measurement. Their ratio is
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        T_{BW}(\lambda)=\frac{H_B(\lambda)}{H_W(\lambda)}
+        }
+        \]
+      </div>
+
+      <p>
+        In the call to <code>Hypera_lib.ComputeRho()</code>, the ND-spot state is passed as state A
+        and the white-plug pure-water state as state B:
+      </p>
+
+      <div class="eqbox">
+        \[
+        a_A=a_{\mathrm{water}}+a_{\mathrm{spot}},
+        \qquad
+        a_B=a_{\mathrm{water}}
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \left[
+        a_{\mathrm{water}},
+        a_{\mathrm{spot}},
+        \frac{H_B}{H_W},
+        r,
+        r_0
+        \right]
+        \longrightarrow
+        \rho_{\mathrm{field}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB implementation — <code>Hypera_RhoFromNDSpot.m</code></div>
+      <pre><code>rho = Hypera_lib.ComputeRho( ...
+    cal.r, ...
+    cal.r_0, ...
+    Cal_spot_a_total, ...
+    PureWater_aW_modeled, ...
+    median(spot_DarkRefCorrected.NoFilter, 1), ...
+    median(purewater_DarkRefCorrected.NoFilter, 1));
+
+rho = smoothdata(rho, "sgolay", 30);</code></pre>
+
+      <div class="note">
+        <strong>Interpretation:</strong> the White/Black procedure does not merely generate a diagnostic drift index.
+        It directly produces a new wavelength-dependent sphere reflectivity
+        \(\rho_{\mathrm{field}}(\lambda)\).
+      </div>
+    </section>
+
+    <section id="eng-7">
+      <h2>7. Relationship Between Factory and Field Calibration</h2>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \text{Factory calibration}
+        \longrightarrow
+        r,\;r_0,\;\rho_{\mathrm{factory}}(\lambda),\;
+        a_{\mathrm{spot}}(\lambda)
+        }
+        \]
+      </div>
+
+      <p>
+        The calibrated ND spot then serves as a transfer standard during field operation:
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        a_{\mathrm{spot}}(\lambda)
+        +
+        \text{White/Black measurements}
+        \longrightarrow
+        \rho_{\mathrm{field}}(\lambda)
+        }
+        \]
+      </div>
+
+      <p>
+        Thus, <code>cal.spotAbsorp</code> represents a previously characterized property of the ND spot,
+        whereas \(\rho(\lambda)\) is the intermediate calibration parameter describing the current cavity response.
+      </p>
+
+      <div class="warning">
+        <strong>Code-level distinction:</strong>
+        <code>Hypera_RhoFromNDSpot()</code> returns a new variable <code>rho</code>.
+        It does not internally overwrite <code>cal.rho</code>. Therefore, the calling workflow must explicitly use
+        the newly calculated reflectivity for subsequent sample retrieval, for example by assigning it to
+        <code>cal.rho</code> or by constructing an updated calibration structure.
+      </div>
+    </section>
+
+    <section id="eng-8">
+      <h2>8. Sample Absorption Retrieval</h2>
+
+      <p>
+        After calibration, pure water is used as the optical reference and an unknown sample is measured.
+        After dark/reference correction, the observed sample-to-water ratio is
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        T_{\mathrm{obs}}(\lambda)=
+        \frac{
+        H_{\mathrm{sample}}(\lambda)
+        }{
+        \operatorname{median}[H_{\mathrm{water}}(\lambda)]
+        }
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB implementation — <code>Hypera_lib.m</code>, function <code>ComputeAbsorption()</code></div>
+      <pre><code>r   = cal.r;
+r_0 = cal.r_0;
+rho = cal.rho;
+
+T_AB = hypera_sample ./ median(hypera_pureWater, 1);
+T_AB = smoothdata(T_AB, 2, 'sgolay', 15);</code></pre>
+    </section>
+
+    <section id="eng-9">
+      <h2>9. Forward Model and Nonlinear Inversion</h2>
+
+      <p>
+        For an unknown sample absorption \(a(\lambda)\), with pure-water absorption \(a_W(\lambda)\),
+        the model predicts the Hyper-a signal ratio as
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \hat{T}(a,\lambda)=
+        e^{-r_0[a(\lambda)-a_W(\lambda)]}
+        \,
+        \frac{
+        1-\rho(\lambda)P_s(a_W,r)
+        }{
+        1-\rho(\lambda)P_s(a,r)
+        }
+        \,
+        \frac{
+        P_s(a,r)
+        }{
+        P_s(a_W,r)
+        }
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB forward model — <code>Hypera_lib.m</code>, function <code>ComputeAbsorption()</code></div>
+      <pre><code>T_AB_guess = @(a_guess) ...
+    exp(-r_0 .* (a_guess - aW_ref(i_wl))) ...
+    .* ((1 - rho(i_wl) .* Hypera_lib.Ps(aW_ref(i_wl),r)) ...
+    ./  (1 - rho(i_wl) .* Hypera_lib.Ps(a_guess,r)) ...
+    .*  Hypera_lib.Ps(a_guess,r) ...
+    ./  Hypera_lib.Ps(aW_ref(i_wl),r));</code></pre>
+
+      <p>
+        The retrieved absorption coefficient is the value of \(a\) that minimizes the relative mismatch
+        between model prediction and observation:
+      </p>
+
+      <div class="eqbox">
+        \[
+        E(a)=
+        \frac{
+        \left|\hat T(a,\lambda)-T_{\mathrm{obs}}(\lambda)\right|
+        }{
+        T_{\mathrm{obs}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        a_{\mathrm{Hyper\!-\!a}}(\lambda)
+        =
+        \underset{a}{\operatorname{argmin}}
+        \;
+        \frac{
+        \left|\hat T(a,\lambda)-T_{\mathrm{obs}}(\lambda)\right|
+        }{
+        T_{\mathrm{obs}}(\lambda)
+        }
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB inversion — <code>Hypera_lib.m</code>, function <code>ComputeAbsorption()</code></div>
+      <pre><code>ToMinimize = @(a_guess) ...
+    abs(T_AB_guess(a_guess) - T_AB(i_meas,i_wl)) ...
+    ./ T_AB(i_meas,i_wl);
+
+a_tot_hypera(i_meas,i_wl) = ...
+    fminsearch(ToMinimize, aW_ref(i_wl));</code></pre>
+
+      <div class="note">
+        <strong>Key point:</strong> Hyper-a does not convert counts to absorption using a single multiplicative
+        calibration coefficient. The measured ratio is interpreted through the calibrated integrating-cavity
+        forward model, and \(a(\lambda)\) is obtained by nonlinear inversion.
+      </div>
+    </section>
+
+    <section id="eng-10">
+      <h2>10. Complete Processing Chain</h2>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \text{Factory calibration}
+        \rightarrow
+        \left(r,r_0,\rho_{\mathrm{factory}},a_{\mathrm{spot}}\right)
+        }
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \text{Pure water + White plug}
+        \;\&\;
+        \text{Pure water + ND black spot}
+        \rightarrow
+        \rho_{\mathrm{field}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        H_{\mathrm{sample}}/H_{\mathrm{water}}
+        \rightarrow
+        T_{\mathrm{obs}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        T_{\mathrm{obs}}
+        =
+        F\!\left[
+        a(\lambda);
+        r,r_0,\rho_{\mathrm{field}}(\lambda),a_W(\lambda)
+        \right]
+        }
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \text{Nonlinear inversion}
+        \rightarrow
+        a_{\mathrm{sample}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="flow">
+        Known absorption standard → sphere reflectivity → cavity optical model → sample absorption
+      </div>
+    </section>
+
+    <section id="eng-11">
+      <h2>11. Key MATLAB Variables and Functions</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>MATLAB item</th>
+            <th>Mathematical / physical meaning</th>
+            <th>Role in processing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>cal.r</code></td><td>\(r\)</td><td>Characteristic sphere radius used by \(P_s(a,r)\)</td></tr>
+          <tr><td><code>cal.r_0</code></td><td>\(r_0\)</td><td>Effective direct-path term in the exponential attenuation factor</td></tr>
+          <tr><td><code>cal.rho</code></td><td>\(\rho(\lambda)\)</td><td>Wavelength-dependent effective sphere reflectivity used in absorption retrieval</td></tr>
+          <tr><td><code>cal.spotAbsorp</code></td><td>\(a_{\mathrm{spot}}(\lambda)\)</td><td>Known equivalent absorption of the ND black spot</td></tr>
+          <tr><td><code>cal.wl</code></td><td>Common wavelength grid</td><td>Target wavelength axis for spectral interpolation</td></tr>
+          <tr><td><code>Hypera_lib.CorrectSpectrum()</code></td><td>Basic detector correction</td><td>Dark correction, interpolation, signal/reference normalization</td></tr>
+          <tr><td><code>Hypera_lib.Get_IOCCG_aW()</code></td><td>\(a_W(\lambda,T,S)\)</td><td>Temperature/salinity-adjusted pure-water absorption</td></tr>
+          <tr><td><code>Hypera_lib.Ps()</code></td><td>\(P_s(a,r)\)</td><td>Probability term in the PSICAM cavity model</td></tr>
+          <tr><td><code>Hypera_lib.ComputeRho()</code></td><td>\(\rho(\lambda)\) inversion</td><td>Computes sphere reflectivity from two known absorption states</td></tr>
+          <tr><td><code>Hypera_RhoFromNDSpot()</code></td><td>Field recalibration</td><td>Computes new \(\rho_{\mathrm{field}}\) from white-plug and ND-spot measurements</td></tr>
+          <tr><td><code>Hypera_lib.ComputeAbsorption()</code></td><td>\(a(\lambda)\) inversion</td><td>Retrieves unknown sample absorption using the calibrated forward model</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="footer">
+      Based on the supplied MATLAB implementations <code>Hypera_lib.m</code> and
+      <code>Hypera_RhoFromNDSpot.m</code>.
+    </div>
+  </article>
+
+
+  <!-- ===================== KOREAN ===================== -->
+  <article id="panel-kor" class="lang-panel">
+
+    <h1>Hyper-a 초분광 흡광계의 교정 및 흡광계수 산출</h1>
+    <div class="subtitle">기술 설명서: Factory calibration → ND spot field calibration → sample absorption retrieval</div>
+
+    <div class="toc">
+      <strong>목차</strong>
+      <ol>
+        <li><a href="#kor-1">개요</a></li>
+        <li><a href="#kor-2">원시 분광자료의 기본 보정</a></li>
+        <li><a href="#kor-3">적분구 광학 모델</a></li>
+        <li><a href="#kor-4">Factory calibration: 적분구 반사율 결정</a></li>
+        <li><a href="#kor-5">ND spot field calibration</a></li>
+        <li><a href="#kor-6">White/Black 측정으로부터 현장 ρ 계산</a></li>
+        <li><a href="#kor-7">Factory와 field calibration의 관계</a></li>
+        <li><a href="#kor-8">실제 시료의 흡광계수 산출</a></li>
+        <li><a href="#kor-9">Forward model과 비선형 역산</a></li>
+        <li><a href="#kor-10">전체 처리 흐름</a></li>
+        <li><a href="#kor-11">핵심 MATLAB 변수 및 함수</a></li>
+      </ol>
+    </div>
+
+    <section id="kor-1">
+      <h2>1. 개요</h2>
+      <p>
+        Hyper-a는 integrating cavity를 이용하여 시료의 분광 흡광계수 \(a(\lambda)\)를 측정한다.
+        이 과정은 단순한 gain/offset 교정이나 직접적인 Beer–Lambert 계산이 아니다.
+        적분구 내부에서 발생하는 다중 반사와 유효 광경로를 명시적으로 고려하는
+        PSICAM 계열의 적분구 광학 모델을 사용한다.
+      </p>
+
+      <div class="var-grid">
+        <div class="var-card"><strong>\(r\)</strong><br>MATLAB 변수: <code>cal.r</code></div>
+        <div class="var-card"><strong>\(r_0\)</strong><br>MATLAB 변수: <code>cal.r_0</code></div>
+        <div class="var-card"><strong>\(\rho(\lambda)\)</strong><br>MATLAB 변수: <code>cal.rho</code></div>
+        <div class="var-card"><strong>\(a_{\mathrm{spot}}(\lambda)\)</strong><br>MATLAB 변수: <code>cal.spotAbsorp</code></div>
+      </div>
+
+      <div class="flow">
+        Factory Calibration → ND Spot Field Calibration → Sample Absorption Retrieval
+      </div>
+    </section>
+
+    <section id="kor-2">
+      <h2>2. 원시 분광자료의 기본 보정</h2>
+      <p>
+        Signal detector와 reference detector의 원시 count에서 시간적으로 가장 가까운 dark 측정값을 제거한다.
+      </p>
+
+      <div class="eqbox">
+        \[
+        S'(\lambda)=S_{\mathrm{raw}}(\lambda)-S_{\mathrm{dark}}(\lambda)
+        \]
+        \[
+        R'(\lambda)=R_{\mathrm{raw}}(\lambda)-R_{\mathrm{dark}}(\lambda)
+        \]
+      </div>
+
+      <p>
+        이후 signal과 reference spectrum을 <code>cal.wl</code>로 정의된 공통 파장축에 보간한다.
+        최종적으로 기본 Hyper-a 신호는 다음과 같이 계산된다.
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        H(\lambda)=\frac{S'(\lambda)}{R'(\lambda)}
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB 구현 — <code>Hypera_lib.m</code>, 함수 <code>CorrectSpectrum()</code></div>
+      <pre><code>sig_darkCorr = lightData.sigPix(n,:) ...
+             - medianDarkData.median_sigPix(closestIndex,:);
+
+ref_darkCorr = lightData.refPix(n,:) ...
+             - medianDarkData.median_refPix(closestIndex,:);
+
+AllDarkRefCorrected(n,:) = ...
+    interp1(config.sigWls(:)', sig_darkCorr, cal.wl(:)') ./ ...
+    interp1(config.refWls(:)', ref_darkCorr, cal.wl(:)');</code></pre>
+
+      <p>
+        따라서 <code>CorrectSpectrum()</code>의 역할은
+        <strong>dark subtraction → wavelength interpolation → signal/reference normalization</strong>
+        으로 정리할 수 있다.
+      </p>
+    </section>
+
+    <section id="kor-3">
+      <h2>3. 적분구 광학 모델</h2>
+
+      <p>
+        적분구 모델의 핵심 확률함수 \(P_s\)는
+        <code>Hypera_lib.Ps()</code>에 구현되어 있다.
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        P_s(a,r)=
+        \frac{1-e^{-2ar}(2ar+1)}
+        {2a^2r^2}
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB 구현 — <code>Hypera_lib.m</code>, 함수 <code>Ps()</code></div>
+      <pre><code>Ps_x = (1 - exp(-2 .* a .* r) .* (2 .* a .* r + 1)) ...
+     ./ (2 .* a.^2 .* r.^2);</code></pre>
+
+      <p>
+        서로 다른 두 흡광 상태 A와 B의 보정된 Hyper-a 신호를 \(H_A\), \(H_B\)라 하면
+      </p>
+
+      <div class="eqbox">
+        \[
+        T_{AB}(\lambda)=\frac{H_A(\lambda)}{H_B(\lambda)}
+        \]
+      </div>
+
+      <p>
+        이 비율은 \(a_A\), \(a_B\), \(r\), \(r_0\), 그리고 적분구 반사율
+        \(\rho(\lambda)\)의 함수로 표현된다.
+      </p>
+    </section>
+
+    <section id="kor-4">
+      <h2>4. Factory Calibration: 적분구 반사율 결정</h2>
+
+      <p>
+        Factory calibration의 목적은 적분구의 유효 분광 반사율
+        \(\rho(\lambda)\)를 결정하는 것이다.
+      </p>
+
+      <p>
+        흡광계수를 알고 있는 두 상태의 \(a_A(\lambda)\), \(a_B(\lambda)\)와
+        실제 측정된 \(T_{AB}=H_A/H_B\)를 사용하여 \(\rho\)를 역산한다.
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \rho(\lambda)=
+        \frac{
+        T_{AB}e^{-a_Br_0}P_s(a_B,r)
+        -
+        e^{-a_Ar_0}P_s(a_A,r)
+        }{
+        T_{AB}e^{-a_Br_0}P_s(a_A,r)P_s(a_B,r)
+        -
+        e^{-a_Ar_0}P_s(a_B,r)P_s(a_A,r)
+        }
+        }
+        \]
+      </div>
+
+      <div class="flow">
+        알려진 \(a_A,a_B\) + 측정된 \(H_A,H_B\) → \(T_{AB}\) → \(\rho(\lambda)\)
+      </div>
+
+      <div class="code-title">MATLAB 구현 — <code>Hypera_lib.m</code>, 함수 <code>ComputeRho()</code></div>
+      <pre><code>T_AB = A_hypera ./ B_hypera;
+T_AB = smoothdata(T_AB, 2, 'sgolay', 15);
+
+rho = (T_AB .* exp(-a_B .* r_0) .* Hypera_lib.Ps(a_B,r) ...
+     - exp(-a_A .* r_0) .* Hypera_lib.Ps(a_A,r)) ...
+    ./ ...
+     (T_AB .* exp(-a_B .* r_0) .* Hypera_lib.Ps(a_A,r) .* Hypera_lib.Ps(a_B,r) ...
+     - exp(-a_A .* r_0) .* Hypera_lib.Ps(a_B,r) .* Hypera_lib.Ps(a_A,r));</code></pre>
+    </section>
+
+    <section id="kor-5">
+      <h2>5. ND Spot Field Calibration</h2>
+
+      <p>
+        현장에서는 적분구 내부에 pure water를 넣은 상태에서 Fluorilon white plug와
+        ND black spot을 각각 측정하여 현재 장비의 optical state에 해당하는
+        새로운 \(\rho(\lambda)\)를 계산한다.
+      </p>
+
+      <h3>5.1 White plug 측정</h3>
+
+      <p>
+        Pure water와 Fluorilon white plug가 설치된 상태에서는 흡광 상태를
+        pure-water absorption으로 나타낸다.
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        a_W(\lambda)=a_{\mathrm{water}}(\lambda,T_W,S=0)
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB 구현 — <code>Hypera_RhoFromNDSpot.m</code></div>
+      <pre><code>purewater_DarkRefCorrected = ...
+    Hypera_lib.CorrectSpectrum(cal, pureWater.dataTable, pureWater.config);
+
+PureWater_aW_modeled = ...
+    Hypera_lib.Get_IOCCG_aW(cal.wl, T_pureWater, 0)';</code></pre>
+
+      <h3>5.2 ND black spot 측정</h3>
+
+      <p>
+        Pure water를 유지한 상태에서 white plug를 ND black spot으로 교체한다.
+        ND spot 자체의 알려진 equivalent absorption spectrum은
+        <code>cal.spotAbsorp</code>에 저장되어 있다.
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        a_B(\lambda)=
+        a_{\mathrm{water}}(\lambda,T_B)+a_{\mathrm{spot}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB 구현 — <code>Hypera_RhoFromNDSpot.m</code></div>
+      <pre><code>spot_DarkRefCorrected = ...
+    Hypera_lib.CorrectSpectrum(cal, spot.dataTable, spot.config);
+
+Cal_spot_aW_modeled = ...
+    Hypera_lib.Get_IOCCG_aW(cal.wl, T_spot, 0)';
+
+Cal_spot_a_total = cal.spotAbsorp + Cal_spot_aW_modeled;</code></pre>
+    </section>
+
+    <section id="kor-6">
+      <h2>6. White/Black 측정으로부터 현장 ρ 계산</h2>
+
+      <p>
+        White plug 상태의 보정된 신호를 \(H_W(\lambda)\),
+        ND black spot 상태의 보정된 신호를 \(H_B(\lambda)\)라고 하면
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        T_{BW}(\lambda)=\frac{H_B(\lambda)}{H_W(\lambda)}
+        }
+        \]
+      </div>
+
+      <p>
+        <code>Hypera_lib.ComputeRho()</code>를 호출할 때 ND spot 상태가 A,
+        white-plug pure-water 상태가 B로 입력된다.
+      </p>
+
+      <div class="eqbox">
+        \[
+        a_A=a_{\mathrm{water}}+a_{\mathrm{spot}},
+        \qquad
+        a_B=a_{\mathrm{water}}
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \left[
+        a_{\mathrm{water}},
+        a_{\mathrm{spot}},
+        \frac{H_B}{H_W},
+        r,
+        r_0
+        \right]
+        \longrightarrow
+        \rho_{\mathrm{field}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB 구현 — <code>Hypera_RhoFromNDSpot.m</code></div>
+      <pre><code>rho = Hypera_lib.ComputeRho( ...
+    cal.r, ...
+    cal.r_0, ...
+    Cal_spot_a_total, ...
+    PureWater_aW_modeled, ...
+    median(spot_DarkRefCorrected.NoFilter, 1), ...
+    median(purewater_DarkRefCorrected.NoFilter, 1));
+
+rho = smoothdata(rho, "sgolay", 30);</code></pre>
+
+      <div class="note">
+        <strong>해석:</strong> White/Black 절차는 단순한 drift diagnostic index를 만드는 과정이 아니다.
+        이 절차를 통해 파장별 새로운 sphere reflectivity
+        \(\rho_{\mathrm{field}}(\lambda)\)가 직접 산출된다.
+      </div>
+    </section>
+
+    <section id="kor-7">
+      <h2>7. Factory와 Field Calibration의 관계</h2>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \text{Factory calibration}
+        \longrightarrow
+        r,\;r_0,\;\rho_{\mathrm{factory}}(\lambda),\;
+        a_{\mathrm{spot}}(\lambda)
+        }
+        \]
+      </div>
+
+      <p>
+        Factory calibration에서 특성이 결정된 ND spot은 이후 현장에서
+        transfer standard 역할을 한다.
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        a_{\mathrm{spot}}(\lambda)
+        +
+        \text{White/Black measurements}
+        \longrightarrow
+        \rho_{\mathrm{field}}(\lambda)
+        }
+        \]
+      </div>
+
+      <p>
+        따라서 <code>cal.spotAbsorp</code>는 사전에 특성이 결정된 ND spot의
+        calibration characteristic이고, \(\rho(\lambda)\)는 실제 측정 시점의
+        cavity response를 나타내는 중간 교정 변수이다.
+      </p>
+
+      <div class="warning">
+        <strong>코드상 주의점:</strong>
+        <code>Hypera_RhoFromNDSpot()</code>는 새로운 <code>rho</code>를 반환하지만
+        함수 내부에서 <code>cal.rho</code>를 직접 덮어쓰지는 않는다.
+        따라서 이후 sample retrieval에 새 reflectivity를 사용하려면
+        호출부에서 <code>cal.rho</code>에 새 값을 대입하거나 갱신된 calibration structure를 구성해야 한다.
+      </div>
+    </section>
+
+    <section id="kor-8">
+      <h2>8. 실제 시료의 흡광계수 산출</h2>
+
+      <p>
+        교정 이후 pure water를 optical reference로 사용하고 unknown sample을 측정한다.
+        두 자료 모두 dark/reference correction을 수행한 뒤 sample-to-water ratio를 계산한다.
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        T_{\mathrm{obs}}(\lambda)=
+        \frac{
+        H_{\mathrm{sample}}(\lambda)
+        }{
+        \operatorname{median}[H_{\mathrm{water}}(\lambda)]
+        }
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB 구현 — <code>Hypera_lib.m</code>, 함수 <code>ComputeAbsorption()</code></div>
+      <pre><code>r   = cal.r;
+r_0 = cal.r_0;
+rho = cal.rho;
+
+T_AB = hypera_sample ./ median(hypera_pureWater, 1);
+T_AB = smoothdata(T_AB, 2, 'sgolay', 15);</code></pre>
+    </section>
+
+    <section id="kor-9">
+      <h2>9. Forward Model과 비선형 역산</h2>
+
+      <p>
+        미지 시료의 흡광계수를 \(a(\lambda)\), reference pure-water absorption을
+        \(a_W(\lambda)\)라고 하면, 주어진 \(a\)에 대해 모델이 예측하는 Hyper-a signal ratio는
+        다음과 같다.
+      </p>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \hat{T}(a,\lambda)=
+        e^{-r_0[a(\lambda)-a_W(\lambda)]}
+        \,
+        \frac{
+        1-\rho(\lambda)P_s(a_W,r)
+        }{
+        1-\rho(\lambda)P_s(a,r)
+        }
+        \,
+        \frac{
+        P_s(a,r)
+        }{
+        P_s(a_W,r)
+        }
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB forward model — <code>Hypera_lib.m</code>, 함수 <code>ComputeAbsorption()</code></div>
+      <pre><code>T_AB_guess = @(a_guess) ...
+    exp(-r_0 .* (a_guess - aW_ref(i_wl))) ...
+    .* ((1 - rho(i_wl) .* Hypera_lib.Ps(aW_ref(i_wl),r)) ...
+    ./  (1 - rho(i_wl) .* Hypera_lib.Ps(a_guess,r)) ...
+    .*  Hypera_lib.Ps(a_guess,r) ...
+    ./  Hypera_lib.Ps(aW_ref(i_wl),r));</code></pre>
+
+      <p>
+        실제 관측값과 모델 예측값의 상대오차가 최소가 되는 \(a\)를 찾는다.
+      </p>
+
+      <div class="eqbox">
+        \[
+        E(a)=
+        \frac{
+        \left|\hat T(a,\lambda)-T_{\mathrm{obs}}(\lambda)\right|
+        }{
+        T_{\mathrm{obs}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        a_{\mathrm{Hyper\!-\!a}}(\lambda)
+        =
+        \underset{a}{\operatorname{argmin}}
+        \;
+        \frac{
+        \left|\hat T(a,\lambda)-T_{\mathrm{obs}}(\lambda)\right|
+        }{
+        T_{\mathrm{obs}}(\lambda)
+        }
+        }
+        \]
+      </div>
+
+      <div class="code-title">MATLAB 역산 — <code>Hypera_lib.m</code>, 함수 <code>ComputeAbsorption()</code></div>
+      <pre><code>ToMinimize = @(a_guess) ...
+    abs(T_AB_guess(a_guess) - T_AB(i_meas,i_wl)) ...
+    ./ T_AB(i_meas,i_wl);
+
+a_tot_hypera(i_meas,i_wl) = ...
+    fminsearch(ToMinimize, aW_ref(i_wl));</code></pre>
+
+      <div class="note">
+        <strong>핵심:</strong> Hyper-a는 하나의 multiplicative calibration coefficient를 count에 곱해
+        absorption으로 변환하는 장비가 아니다. 측정된 signal ratio를 calibrated integrating-cavity
+        forward model로 해석하고, 비선형 역산을 통해 \(a(\lambda)\)를 결정한다.
+      </div>
+    </section>
+
+    <section id="kor-10">
+      <h2>10. 전체 처리 흐름</h2>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \text{Factory calibration}
+        \rightarrow
+        \left(r,r_0,\rho_{\mathrm{factory}},a_{\mathrm{spot}}\right)
+        }
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \text{Pure water + White plug}
+        \;\&\;
+        \text{Pure water + ND black spot}
+        \rightarrow
+        \rho_{\mathrm{field}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        H_{\mathrm{sample}}/H_{\mathrm{water}}
+        \rightarrow
+        T_{\mathrm{obs}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        T_{\mathrm{obs}}
+        =
+        F\!\left[
+        a(\lambda);
+        r,r_0,\rho_{\mathrm{field}}(\lambda),a_W(\lambda)
+        \right]
+        }
+        \]
+      </div>
+
+      <div class="eqbox">
+        \[
+        \boxed{
+        \text{Nonlinear inversion}
+        \rightarrow
+        a_{\mathrm{sample}}(\lambda)
+        }
+        \]
+      </div>
+
+      <div class="flow">
+        Known absorption standard → sphere reflectivity → cavity optical model → sample absorption
+      </div>
+    </section>
+
+    <section id="kor-11">
+      <h2>11. 핵심 MATLAB 변수 및 함수</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>MATLAB 항목</th>
+            <th>수학·물리적 의미</th>
+            <th>처리 과정에서의 역할</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>cal.r</code></td><td>\(r\)</td><td>\(P_s(a,r)\) 계산에 사용하는 characteristic sphere radius</td></tr>
+          <tr><td><code>cal.r_0</code></td><td>\(r_0\)</td><td>지수 감쇠항에 사용되는 유효 직접 광경로 항</td></tr>
+          <tr><td><code>cal.rho</code></td><td>\(\rho(\lambda)\)</td><td>최종 absorption retrieval에 사용되는 파장별 유효 sphere reflectivity</td></tr>
+          <tr><td><code>cal.spotAbsorp</code></td><td>\(a_{\mathrm{spot}}(\lambda)\)</td><td>ND black spot의 알려진 equivalent absorption</td></tr>
+          <tr><td><code>cal.wl</code></td><td>공통 wavelength grid</td><td>signal/reference spectrum 보간의 목표 파장축</td></tr>
+          <tr><td><code>Hypera_lib.CorrectSpectrum()</code></td><td>기본 detector 보정</td><td>dark correction, interpolation, signal/reference normalization</td></tr>
+          <tr><td><code>Hypera_lib.Get_IOCCG_aW()</code></td><td>\(a_W(\lambda,T,S)\)</td><td>온도·염분을 고려한 pure-water absorption 계산</td></tr>
+          <tr><td><code>Hypera_lib.Ps()</code></td><td>\(P_s(a,r)\)</td><td>PSICAM cavity model의 확률항 계산</td></tr>
+          <tr><td><code>Hypera_lib.ComputeRho()</code></td><td>\(\rho(\lambda)\) 역산</td><td>알려진 두 absorption state와 측정비로 sphere reflectivity 계산</td></tr>
+          <tr><td><code>Hypera_RhoFromNDSpot()</code></td><td>Field recalibration</td><td>white-plug 및 ND-spot 측정으로 새로운 \(\rho_{\mathrm{field}}\) 계산</td></tr>
+          <tr><td><code>Hypera_lib.ComputeAbsorption()</code></td><td>\(a(\lambda)\) 역산</td><td>교정된 forward model로 unknown sample absorption 계산</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="footer">
+      제공된 MATLAB 구현 <code>Hypera_lib.m</code>과 <code>Hypera_RhoFromNDSpot.m</code>을 바탕으로 정리.
+    </div>
+  </article>
+
+</main>
+</body>
+</html>
