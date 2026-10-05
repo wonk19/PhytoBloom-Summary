@@ -225,7 +225,8 @@ footer { margin-top: 2.5rem; color: var(--muted); font-size: 0.85rem; }
 
 <nav class="main-tabs" aria-label="Report sections">
   <button type="button" class="main-tab-btn active" data-tab="calibration">(1) Calibration</button>
-  <button type="button" class="main-tab-btn" data-tab="spectra">(2) Spectrum Plots</button>
+  <button type="button" class="main-tab-btn" data-tab="detail">(2) Calibration in detail</button>
+  <button type="button" class="main-tab-btn" data-tab="spectra">(3) Spectrum Plots</button>
 </nav>
 
 <div id="tab-calibration" class="tab-panel active">
@@ -376,6 +377,11 @@ All spectra in tab (2) and in <code>F02_hbb_spectra.csv</code> use this
 conversion so plotted / exported values are b<sub>b</sub> (m<sup>-1</sup>).
 </p>
 </section>
+</div>
+
+<div id="tab-detail" class="tab-panel">
+  <p class="desc"><a href="SN8030_processing_workflow.html" target="_blank" rel="noopener">Open detailed workflow in a separate page / 새 창에서 열기</a></p>
+  <iframe id="calibration-detail-frame" src="SN8030_processing_workflow.html" title="SN8030 calibration and processing workflow — English / 한국어" style="display:block;width:100%;height:1000px;border:0" loading="lazy"></iframe>
 </div>
 
 <div id="tab-spectra" class="tab-panel">
@@ -830,9 +836,26 @@ function initMainTabs() {
   const btns = document.querySelectorAll(".main-tab-btn");
   const panels = {
     calibration: document.getElementById("tab-calibration"),
+    detail: document.getElementById("tab-detail"),
     spectra: document.getElementById("tab-spectra"),
   };
   let spectraInited = false;
+  const detailFrame = document.getElementById("calibration-detail-frame");
+  let detailObserver;
+  function resizeDetail() {
+    if (!panels.detail.classList.contains("active")) return;
+    const doc = detailFrame.contentDocument;
+    if (doc && doc.body) detailFrame.style.height = Math.ceil(doc.body.getBoundingClientRect().height + 24) + "px";
+  }
+  detailFrame.addEventListener("load", () => {
+    if (detailObserver) detailObserver.disconnect();
+    if (detailFrame.contentDocument && detailFrame.contentDocument.body) {
+      detailObserver = new ResizeObserver(resizeDetail);
+      detailObserver.observe(detailFrame.contentDocument.body);
+    }
+    resizeDetail();
+  });
+  window.addEventListener("resize", resizeDetail);
 
   function showTab(name) {
     btns.forEach(btn => {
@@ -841,6 +864,7 @@ function initMainTabs() {
     Object.keys(panels).forEach(key => {
       if (panels[key]) panels[key].classList.toggle("active", key === name);
     });
+    if (name === "detail") requestAnimationFrame(resizeDetail);
     if (name === "spectra") {
       if (!spectraInited) {
         initMeta();

@@ -1,0 +1,112 @@
+{
+  "definition": "B(c) = W_T(0)/W_T(c); single-scattering attenuation-only scenario",
+  "source_doi": "10.1364/AO.437735",
+  "validation": {
+    "HydroScat-6": {
+      "max_relative_quadrature_difference": 2.6499619165676336e-09
+    },
+    "ECO-BB": {
+      "max_relative_quadrature_difference": 1.265270779260419e-07
+    }
+  },
+  "rows": [
+    {
+      "sample": "DIL1A",
+      "wavelength_nm": 430,
+      "c_m_inv": 2.1939832508162347,
+      "HydroScat-6": 1.3947005086760857,
+      "ECO-BB": 1.05604987212242
+    },
+    {
+      "sample": "DIL1A",
+      "wavelength_nm": 440,
+      "c_m_inv": 2.168095734683684,
+      "HydroScat-6": 1.3892563164740477,
+      "ECO-BB": 1.0553723402843858
+    },
+    {
+      "sample": "DIL1A",
+      "wavelength_nm": 490,
+      "c_m_inv": 1.976962996661102,
+      "HydroScat-6": 1.34969877492478,
+      "ECO-BB": 1.0503821040184695
+    },
+    {
+      "sample": "DIL1A",
+      "wavelength_nm": 550,
+      "c_m_inv": 1.7392655759599334,
+      "HydroScat-6": 1.3020380655440265,
+      "ECO-BB": 1.044205809273661
+    },
+    {
+      "sample": "DIL1A",
+      "wavelength_nm": 620,
+      "c_m_inv": 1.529978472735216,
+      "HydroScat-6": 1.2614391862287158,
+      "ECO-BB": 1.0387948530753743
+    },
+    {
+      "sample": "DIL1A",
+      "wavelength_nm": 675,
+      "c_m_inv": 1.3971859397058524,
+      "HydroScat-6": 1.2363238990585073,
+      "ECO-BB": 1.03537472718742
+    },
+    {
+      "sample": "DIL1A",
+      "wavelength_nm": 700,
+      "c_m_inv": 1.3407186202177028,
+      "HydroScat-6": 1.225792912444163,
+      "ECO-BB": 1.033923467296236
+    },
+    {
+      "sample": "DIL1B",
+      "wavelength_nm": 430,
+      "c_m_inv": 2.306760402155583,
+      "HydroScat-6": 1.4186621333537683,
+      "ECO-BB": 1.0590060706619548
+    },
+    {
+      "sample": "DIL1B",
+      "wavelength_nm": 440,
+      "c_m_inv": 2.2799566099995445,
+      "HydroScat-6": 1.4129309583686067,
+      "ECO-BB": 1.0583027945459036
+    },
+    {
+      "sample": "DIL1B",
+      "wavelength_nm": 490,
+      "c_m_inv": 2.071395894162049,
+      "HydroScat-6": 1.369103325713766,
+      "ECO-BB": 1.0528449631713581
+    },
+    {
+      "sample": "DIL1B",
+      "wavelength_nm": 550,
+      "c_m_inv": 1.809694094928639,
+      "HydroScat-6": 1.315985437554601,
+      "ECO-BB": 1.0460323907643283
+    },
+    {
+      "sample": "DIL1B",
+      "wavelength_nm": 620,
+      "c_m_inv": 1.5894263506785513,
+      "HydroScat-6": 1.2728436852300822,
+      "ECO-BB": 1.0403292554708696
+    },
+    {
+      "sample": "DIL1B",
+      "wavelength_nm": 675,
+      "c_m_inv": 1.4484615771398017,
+      "HydroScat-6": 1.24596325973609,
+      "ECO-BB": 1.0366941470602173
+    },
+    {
+      "sample": "DIL1B",
+      "wavelength_nm": 700,
+      "c_m_inv": 1.386036843732434,
+      "HydroScat-6": 1.2342376408043567,
+      "ECO-BB": 1.0350880401658669
+    }
+  ]
+}
